@@ -17,7 +17,6 @@ using namespace std;
 #ifndef Assignment1_HPP
 #define Assignment1_HPP
 
-	
 //A general object to get and validate file/standard input
 class GenIn
 {
