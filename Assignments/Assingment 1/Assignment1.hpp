@@ -37,6 +37,7 @@ class GenIn
 		std::string path; //Std::string to hold a file path
 	
 };
+
 //An object to read CSV content from given file and write to an array
 class FileIn
 {
