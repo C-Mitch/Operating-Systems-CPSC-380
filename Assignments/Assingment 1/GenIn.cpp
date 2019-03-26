@@ -4,10 +4,11 @@
 //CPSC-380-01
 //Assignment1
 
-#include "Assignment1.hpp"
+#include "GenIn.hpp"
 
 using namespace std;
 
+//GenIn Functions
 GenIn::GenIn()
 {
 	path = " ";
@@ -102,4 +103,54 @@ bool GenIn::validatePath(std::string pathy)
 std::string GenIn::getPath() //Get Validated File Path
 {
 	return path;
+}
+
+//FileIn Functions
+FileIn::FileIn()
+{
+	path = "";
+}
+
+FileIn::FileIn(std::string p)
+{
+	path = p;
+	size = 0;	
+	readInput();
+	
+}
+
+FileIn::~FileIn()
+{
+
+}
+
+void FileIn::readInput() //Transfer file input to holder array
+{
+	int count, k = 0;
+	double t;
+	ifstream inn(path);
+	while(inn >> t)
+	{
+		if(count == 0)
+		{
+			size = t;
+			holder = new double[size];
+			//cout << "Established Holder" << endl;
+		}
+		else holder[k++] = t;
+		count++;
+	}
+	
+	//for(int x = 0; x < size; ++x) cout << "Holder Contains: " << holder[x] << " at: " << x << endl;
+	inn.close();
+}
+
+double* FileIn::getArray()
+{
+	return holder;
+}
+
+int FileIn::getSize()
+{
+	return size;
 }

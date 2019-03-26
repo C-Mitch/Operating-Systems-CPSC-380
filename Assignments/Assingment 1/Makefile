@@ -5,15 +5,12 @@ EXES = *.exe
 OBJECTS = *.o
 
 all: SVP.exe
-
-Assignment6.o: Makefile Assignment6.cpp
-	$(CC) $(BUILD_FLAGS) -c Assignment1.cpp -o Assignment1.o
 	
 GenIn.o: Makefile GenIn.cpp
 	$(CC) $(BUILD_FLAGS) -c GenIn.cpp -o GenIn.o
 	
-SVP.exe: Makefile Assignment1.o GenIn.o Assignment1Driver.cpp
-	$(CC) $(BUILD_FLAGS) Assignment1.o GenIn.o Assignment1Driver.cpp -o SVP.exe
+SVP.exe: Makefile GenIn.o Assignment1Driver.cpp
+	$(CC) $(BUILD_FLAGS) GenIn.o Assignment1Driver.cpp -o SVP.exe
 	
 clean:
 	$(RM) $(EXES) $(OBJECTS)

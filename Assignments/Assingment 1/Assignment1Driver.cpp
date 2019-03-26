@@ -4,7 +4,7 @@
 //CPSC-380-01
 //Assignment1
 
-#include "Assignment1.hpp"
+#include "GenIn.hpp"
 
 using namespace std;
 

@@ -11,11 +11,10 @@
 #include <string>
 #include <chrono>
 
-
 using namespace std;
 
-#ifndef Assignment1_HPP
-#define Assignment1_HPP
+#ifndef GenIn_HPP
+#define GenIn_HPP
 
 //A general object to get and validate file/standard input
 class GenIn
@@ -38,7 +37,7 @@ class GenIn
 	
 };
 
-//An object to read CSV content from given file and write to an array
+//An object to read content from given file and write to an array
 class FileIn
 {
 	public:
@@ -55,5 +54,5 @@ class FileIn
 		double *holder;
 		int size = 0;
 };
-	
+
 #endif
