@@ -8,17 +8,17 @@
 
 using namespace std;
 
-GenFileIn::GenFileIn()
+GenIn::GenIn()
 {
 	path = " ";
 }
 
-GenFileIn::~GenFileIn()
+GenIn::~GenIn()
 {
 
 }
 
-std::string GenFileIn::getStringInput()  //General String Input Function
+std::string GenIn::getStringInput()  //General String Input Function
 {
 	cin.clear();
 	std::string in;
@@ -30,7 +30,7 @@ std::string GenFileIn::getStringInput()  //General String Input Function
 	return in;
 }
 
-int GenFileIn::getIntInput() //General Integer Input Function
+int GenIn::getIntInput() //General Integer Input Function
 {
 	cin.clear();
 	int in;
@@ -43,7 +43,7 @@ int GenFileIn::getIntInput() //General Integer Input Function
 	return in;
 }
 
-double GenFileIn::getDoubleInput() //General Integer Input Function
+double GenIn::getDoubleInput() //General Integer Input Function
 {
 	cin.clear();
 	double in;
@@ -56,7 +56,7 @@ double GenFileIn::getDoubleInput() //General Integer Input Function
 	return in;
 }
 
-void GenFileIn::setPath()  //Valid File Path Setter
+void GenIn::setPath()  //Valid File Path Setter
 {
 	while(true)
 	{
@@ -72,12 +72,12 @@ void GenFileIn::setPath()  //Valid File Path Setter
 	
 }
 
-void GenFileIn::setPath(std::string p)
+void GenIn::setPath(std::string p)
 {
 	path = p;
 }
 
-bool GenFileIn::validatePath() //Validate A File Path
+bool GenIn::validatePath() //Validate A File Path
 {
 	ifstream in(path);
 	if(in)
@@ -93,13 +93,13 @@ bool GenFileIn::validatePath() //Validate A File Path
 	
 }
 
-bool GenFileIn::validatePath(std::string pathy)
+bool GenIn::validatePath(std::string pathy)
 {
 	path = pathy;
 	validatePath();
 }
 
-std::string GenFileIn::getPath() //Get Validated File Path
+std::string GenIn::getPath() //Get Validated File Path
 {
 	return path;
 }

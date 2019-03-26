@@ -55,7 +55,5 @@ class FileIn
 		double *holder;
 		int size = 0;
 };
-
-};
 	
 #endif

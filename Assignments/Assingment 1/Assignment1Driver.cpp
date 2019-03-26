@@ -12,7 +12,7 @@ int main(int argc, char** argv)
 {	
 	if(argc > 1)
 	{
-		GenFileIn fin;
+		GenIn fin;
 		std::string path = argv[1];
 		if(fin.validatePath(path) == false)
 		{
@@ -28,9 +28,9 @@ int main(int argc, char** argv)
 		cout << " "; //Clear Out Stream
 		FileIn input(fin.getPath());
 		
-		Simulation sim(input.getArray(), input.getSize());
+		//Simulation sim(input.getArray(), input.getSize());
 		
-		sim.Run();
+		//sim.Run();
 		
 	}
 	else cout << "Pass a valid file path at execution" << endl;
