@@ -27,6 +27,8 @@ Simulation::~Simulation()
 
 bool Simulation::runValidation()
 {
+	validationArray[9] = {0};
+	validationArrayCt = 0;
 	pthread_t thread_1, thread_2, thread_3, thread_4, thread_5, thread_6, thread_7, thread_8, thread_9;
 	
 	parameters *subgrid1 = (parameters *) malloc(sizeof(parameters));
@@ -151,6 +153,15 @@ void Simulation::runSolver()
 	board[r][c] = missingValue;
 	printBoard();
 	
+	if(!runValidation())
+	{
+		cout << "More Problems Exist..." << endl;
+		runSolver();
+	}
+	else
+	{
+		cout << "We Good" << endl;
+	}
 }
 
 int Simulation::columnValidator(int col, int row)
