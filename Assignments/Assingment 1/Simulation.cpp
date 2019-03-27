@@ -31,6 +31,8 @@ bool Simulation::runValidation()
 	validationArrayCt = 0;
 	pthread_t thread_1, thread_2, thread_3, thread_4, thread_5, thread_6, thread_7, thread_8, thread_9;
 	
+	cout << "Validation Process Status: " << endl << endl;
+	
 	parameters *subgrid1 = (parameters *) malloc(sizeof(parameters));
 	subgrid1->row = 0;
 	subgrid1->column = 0;
@@ -99,8 +101,11 @@ bool Simulation::runValidation()
 	
 	for(int i = 0; i < 9; ++i)
 	{
-		cout << "Thread " << i << " status: " << validationArray[i] << endl;
+		cout << "	Thread " << i << " status: " << validationArray[i];
+		if(validationArray[i] == 1) { cout << " - Valid" << endl; }
+		else { cout << " - Invalid" << endl; }
 	}
+	
 	for(int i = 0; i < 9; ++i)
 	{
 		if(validationArray[i] == 0) {return false;}
@@ -110,7 +115,7 @@ bool Simulation::runValidation()
 
 void Simulation::runSolver()
 {
-	cout << "WARNING: This Board Is Invalid" << endl << "Solving Board..." << endl;
+	cout << "\nWARNING: This Board Is Invalid" << endl << "Solving Board..." << endl;
 	int startRow, startCol;
 	
 	switch(invalidSubgrid)
@@ -144,7 +149,6 @@ void Simulation::runSolver()
 				break;
 	}
 	
-	cout << "row: " << startRow << " col: " << startCol << endl;
 	int c, r;
 	c = columnValidator(startCol,startRow);
 	r = rowValidator(startCol,startRow);
@@ -155,12 +159,12 @@ void Simulation::runSolver()
 	
 	if(!runValidation())
 	{
-		cout << "More Problems Exist..." << endl;
+		cout << "\nMore Problems Exist; Restaring Solver" << endl;
 		runSolver();
 	}
 	else
 	{
-		cout << "We Good" << endl;
+		cout << "\nAll Problems Solved; Board Good" << endl;
 	}
 }
 
@@ -183,12 +187,6 @@ int Simulation::columnValidator(int col, int row)
 				invalidCol = i;
 			}
 		}
-		/*
-		cout << "sorted array: " << endl;
-		for(int k = 0; k < 9; ++k) { cout << sorted[k]; }		
-		cout << endl << "Reference array: " << endl;
-		for(int k = 0; k < 9; ++k) { cout << reference[k]; }
-		*/
 	}
 	return invalidCol;
 	
@@ -215,7 +213,11 @@ int Simulation::rowValidator(int col, int row)
 		}
 		for(int k = 0; k < 9; ++k)
 		{
-			if(sorted[k] != reference[k]) { missingValue = reference[k]; cout << "Miss: " << missingValue << endl;}
+			if(sorted[k] != reference[k])
+			{
+				missingValue = reference[k];
+				//cout << "Miss: " << missingValue << endl;
+			}
 		}
 	}
 	return invalidRow;
@@ -232,7 +234,7 @@ void Simulation::setBoard()
 				fscanf(this->file,"%d%*c",&board[i][j]);
 		}
 	}
-	cout << "Board Set" << endl;
+	cout << "Board Set:" << endl;
 	this->printBoard();
 
 }
@@ -260,7 +262,7 @@ void *subgridValidator(void *params)
     int startRow = validator->row;
     int startCol = validator->column;
    
-    int sorted[9] = {0}; //1d array to hold sorted 3x3 square
+    int sorted[9] = {0};
 
     for (int i = startRow; i < startRow + 3; ++i)
 	{
@@ -274,9 +276,10 @@ void *subgridValidator(void *params)
             }
             else
 			{
-				cout << endl << "Invalid Value: " << val << " at row: " << i << " col: " << j << endl;
+				//cout << endl << "Invalid Value: " << val << " at row: " << i << " col: " << j << endl;
+				//cout << endl << "Invalid Subgrid: " << invalidSubgrid << endl;
+				
 				invalidSubgrid = validationArrayCt;
-				cout << endl << "Invalid Subgrid: " << invalidSubgrid << endl;
                 validationArray[validationArrayCt] = 0;
 				validationArrayCt++;
 				pthread_exit(0);
