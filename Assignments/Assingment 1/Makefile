@@ -6,11 +6,11 @@ OBJECTS = *.o
 
 all: SVP.exe
 	
-GenIn.o: Makefile GenIn.cpp
-	$(CC) $(BUILD_FLAGS) -c GenIn.cpp -o GenIn.o
+Simulation.o: Makefile Simulation.cpp
+	$(CC) $(BUILD_FLAGS) -c Simulation.cpp -o Simulation.o
 	
-SVP.exe: Makefile GenIn.o Assignment1Driver.cpp
-	$(CC) $(BUILD_FLAGS) GenIn.o Assignment1Driver.cpp -o SVP.exe
+SVP.exe: Makefile Simulation.o Driver.cpp
+	$(CC) $(BUILD_FLAGS) Simulation.o Driver.cpp -o SVP.exe
 	
 clean:
 	$(RM) $(EXES) $(OBJECTS)
