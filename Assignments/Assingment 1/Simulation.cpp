@@ -8,6 +8,7 @@
 
 using namespace std;
 
+//Global Variables
 int board[9][9];
 int validationArray[9];
 int validationArrayCt;
@@ -27,12 +28,14 @@ Simulation::~Simulation()
 
 bool Simulation::runValidation()
 {
+	//Initialize and rest for multiple validations
 	validationArray[9] = {0};
 	validationArrayCt = 0;
 	pthread_t thread_1, thread_2, thread_3, thread_4, thread_5, thread_6, thread_7, thread_8, thread_9;
 	
 	cout << "Validation Process Status: " << endl << endl;
 	
+	//Create worker threads
 	parameters *subgrid1 = (parameters *) malloc(sizeof(parameters));
 	subgrid1->row = 0;
 	subgrid1->column = 0;
@@ -69,6 +72,7 @@ bool Simulation::runValidation()
 	subgrid9->row = 6;
 	subgrid9->column = 6;
 	
+	//pthread_join variables
 	void * square1;
 	void * square2;
 	void * square3;
@@ -118,7 +122,7 @@ void Simulation::runSolver()
 	cout << "\nWARNING: This Board Is Invalid" << endl << "Solving Board..." << endl;
 	int startRow, startCol;
 	
-	switch(invalidSubgrid)
+	switch(invalidSubgrid) //Value initialized from subgridValidator
 	{
 		case 0: startRow = 0;
 				startCol = 0;
@@ -150,8 +154,8 @@ void Simulation::runSolver()
 	}
 	
 	int c, r;
-	c = columnValidator(startCol,startRow);
-	r = rowValidator(startCol,startRow);
+	c = columnValidator(startCol);
+	r = rowValidator(startRow);
 	cout << endl << "Invalid column ID: " << c << " \nInvalid row ID: " << r << endl;
 	cout << "Solution: Change " << board[r][c] << " to " << missingValue << " at column: " << c << " and row: " << r << endl;
 	board[r][c] = missingValue;
@@ -160,7 +164,7 @@ void Simulation::runSolver()
 	if(!runValidation())
 	{
 		cout << "\nMore Problems Exist; Restaring Solver" << endl;
-		runSolver();
+		runSolver();  //Recursivley solve till board is valid
 	}
 	else
 	{
@@ -168,17 +172,17 @@ void Simulation::runSolver()
 	}
 }
 
-int Simulation::columnValidator(int col, int row)
+int Simulation::columnValidator(int col)
 {
 	int invalidCol;
-	for(int i = col; i < col+3; ++i)
+	for(int i = col; i < col+3; ++i)  //Check subgrid columns
 	{
 		//cout << endl << "Col #: " << i << endl;
 		int sorted[9] = {0};
 		for(int j = 0; j < 9; ++j)
 		{
 			int val = board[j][i];
-			if(sorted[val-1] == 0 && val > 0)
+			if(sorted[val-1] == 0 && val > 0)  //Sort items in column, if dupplicate exits, invalidate column
 			{
                 sorted[val-1] = val;
             }
@@ -192,17 +196,17 @@ int Simulation::columnValidator(int col, int row)
 	
 }
 
-int Simulation::rowValidator(int col, int row)
+int Simulation::rowValidator(int row)
 {
 	int invalidRow;
-	for(int i = row; i < row+3; ++i)
+	for(int i = row; i < row+3; ++i)  //Check subgrid rows
 	{
 		//cout << endl << "Row #: " << i << endl;
 		int sorted[9] = {0};
 		for(int j = 0; j < 9; ++j)
 		{
 			int val = board[i][j];
-			if(sorted[val-1] == 0 && val > 0)
+			if(sorted[val-1] == 0 && val > 0)  //Sort items in row, if dupplicate exits, invalidate row
 			{
                 sorted[val-1] = val;
             }
@@ -211,7 +215,7 @@ int Simulation::rowValidator(int col, int row)
 				invalidRow =  i;
 			}
 		}
-		for(int k = 0; k < 9; ++k)
+		for(int k = 0; k < 9; ++k)  //Compare sorted rows against refernce to find missing value - store when found
 		{
 			if(sorted[k] != reference[k])
 			{
@@ -231,7 +235,7 @@ void Simulation::setBoard()
 	{
 		for(int j = 0; j < 9; ++j)
 		{
-				fscanf(this->file,"%d%*c",&board[i][j]);
+				fscanf(this->file,"%d%*c",&board[i][j]);  //Populate board ignoring ','
 		}
 	}
 	cout << "Board Set:" << endl;
@@ -244,10 +248,10 @@ void Simulation::printBoard()
 	for(int i = 0; i < 9; ++i)
 	{
 		int count = 0;
-		if(i%3==0) {cout << endl;}
+		if(i%3==0) {cout << endl;}  //Column Seperator
 		for(int j = 0; j < 9; ++j)
 		{
-			if(count%3==0) {cout << "  ";}
+			if(count%3==0) {cout << "  ";}  //Row seperator
 			cout << board[i][j];
 			if(count>7){ cout << endl;}
 			count++;
@@ -262,15 +266,15 @@ void *subgridValidator(void *params)
     int startRow = validator->row;
     int startCol = validator->column;
    
-    int sorted[9] = {0};
-
-    for (int i = startRow; i < startRow + 3; ++i)
+    int sorted[9] = {0}; //Store sorted subgrid values
+	
+    for (int i = startRow; i < startRow + 3; ++i)  //loop bounded to subgrid passed from threads
 	{
         for (int j = startCol; j < startCol + 3; ++j)
 		{
 			int val = board[i][j];
 	   
-            if (sorted[val-1] == 0 && val > 0)
+            if (sorted[val-1] == 0 && val > 0)  //Sort items in subgrid, if dupplicate exits, invalidate subgrid
 			{
                 sorted[val-1] = val;
             }
