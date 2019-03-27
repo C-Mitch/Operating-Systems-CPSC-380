@@ -8,6 +8,10 @@
 
 using namespace std;
 
+int board[9][9];
+int validationArray[9];
+int validationArrayCt;
+
 Simulation::Simulation(char* fileName)
 {
 	this->name = fileName;
@@ -19,8 +23,10 @@ Simulation::~Simulation()
 	
 }
 
-void Simulation::runValidation()
+bool Simulation::runValidation()
 {
+	pthread_t thread_1, thread_2, thread_3, thread_4, thread_5, thread_6, thread_7, thread_8, thread_9;
+	
 	parameters *subgrid1 = (parameters *) malloc(sizeof(parameters));
 	subgrid1->row = 0;
 	subgrid1->column = 0;
@@ -87,6 +93,21 @@ void Simulation::runValidation()
 	pthread_join(thread_8, &square8);
 	pthread_join(thread_9, &square9);
 	
+	for(int i = 0; i < 9; ++i)
+	{
+		cout << "Thread " << i << " status: " << validationArray[i] << endl;
+	}
+	for(int i = 0; i < 9; ++i)
+	{
+		if(validationArray[i] == 0) {return false;}
+	}
+	return true;
+}
+
+void Simulation::runSolver()
+{
+	
+	cout << "Board is Invalid" << endl;
 	
 }
 
@@ -111,17 +132,47 @@ void Simulation::printBoard()
 	for(int i = 0; i < 9; ++i)
 	{
 		int count = 0;
+		if(i%3==0) {cout << endl;}
 		for(int j = 0; j < 9; ++j)
 		{
+			if(count%3==0) {cout << "  ";}
 			cout << board[i][j];
 			if(count>7){ cout << endl;}
 			count++;
 		}
 	}
+	cout << endl;
 }
 
 void *subgridValidator(void *params)
 {
-	
-	
+    int i, j;
+
+    parameters * validator = (parameters *) params;
+    int startRow = validator->row;
+    int startCol = validator->column;
+   
+    int sorted[9] = {0}; //1d array to hold sorted 3x3 square
+
+    for (i = startRow; i < startRow + 3; ++i)
+	{
+        for (j = startCol; j < startCol + 3; ++j)
+		{
+			int val = board[i][j];
+	   
+            if (sorted[val-1] == 0 && val > 0)
+			{
+                sorted[val-1] = val;
+            }
+            else
+			{
+                validationArray[validationArrayCt] = 0;
+				validationArrayCt++;
+				pthread_exit(0);
+            }
+        }
+    }	
+    validationArray[validationArrayCt] = 1;
+    validationArrayCt++;
+    pthread_exit(0);
 }

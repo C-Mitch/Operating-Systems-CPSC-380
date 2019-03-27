@@ -19,5 +19,7 @@ int main(int argc, char* argv[]) {
 	}
 	
 	Simulation *sim = new Simulation(argv[1]);
-	sim->runValidation();
+	bool result = sim->runValidation();
+	if(!result) {sim->runSolver();}
+	else {cout << endl << "Congradulations! This is a VALID board" << endl;}
 }

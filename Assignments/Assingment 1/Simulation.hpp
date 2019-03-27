@@ -23,6 +23,8 @@ typedef struct
     
 }parameters;
 
+//pthread_t thread_1, thread_2, thread_3, thread_4, thread_5, thread_6, thread_7, thread_8, thread_9;
+
 void *subgridValidator(void *param);
 
 class Simulation
@@ -31,11 +33,10 @@ class Simulation
 		Simulation(char* fileName);
 		~Simulation();
 		
-		void runValidation();
+		bool runValidation();
+		void runSolver();
 	
 	private:
-		int board[9][9];
-		int validationArray[9];
 		string name;
 		FILE *file;
 		
