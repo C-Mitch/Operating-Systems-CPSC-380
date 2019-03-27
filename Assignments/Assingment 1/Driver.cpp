@@ -18,6 +18,6 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
 	
-	Simulation *check = new Simulation(argv[1]);
-	
+	Simulation *sim = new Simulation(argv[1]);
+	sim->runValidation();
 }

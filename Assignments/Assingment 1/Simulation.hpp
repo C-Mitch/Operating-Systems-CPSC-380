@@ -6,8 +6,6 @@
 
 #include <pthread.h>
 #include <iostream>
-#include <fstream>
-#include <istream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
@@ -25,11 +23,15 @@ typedef struct
     
 }parameters;
 
+void *subgridValidator(void *param);
+
 class Simulation
 {
 	public:
 		Simulation(char* fileName);
 		~Simulation();
+		
+		void runValidation();
 	
 	private:
 		int board[9][9];
@@ -38,7 +40,7 @@ class Simulation
 		FILE *file;
 		
 		void setBoard();
-		
+		void printBoard();
 	
 };
 
