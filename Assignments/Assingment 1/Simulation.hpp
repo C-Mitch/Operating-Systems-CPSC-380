@@ -42,6 +42,10 @@ class Simulation
 		
 		void setBoard();
 		void printBoard();
+		int rowValidator(int col, int row);
+		int columnValidator(int col, int row);
+		int reference[9];
+		int missingValue;
 	
 };
 
