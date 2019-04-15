@@ -6,10 +6,9 @@
 
 #include <pthread.h>
 #include <iostream>
+#include <semaphore.h> 
 #include <stdio.h>
-#include <stdlib.h>
-#include <string>
-#include <ctype.h>
+#include <unistd.h> 
 
 using namespace std;
 
@@ -18,14 +17,13 @@ using namespace std;
 
 typedef struct
 {
-	int height;
-	int velocity;
+    int height;
+    int force;
     
 }parameters;
 
-
-void *fredSee( );
-void *wilmaSaw( );
+void* fredSee(void* arg);
+void* wilmaSaw(void* arg);
 
 class Simulation
 {
@@ -35,6 +33,10 @@ class Simulation
 	
 	private:
 		void runSimulation();
+		void printHeight();
+		
+		int time;
+		int loopControl;
 	
 	
 };

@@ -12,5 +12,9 @@ using namespace std;
 int main(int argc, char* argv[]) {
 	
 	Simulation *sim = new Simulation();
-	sim->runSimulation();
+	sim->~Simulation();
+	
+	cout << endl << "Simulation Concluded" << endl;
+	
+	return 0;
 }
