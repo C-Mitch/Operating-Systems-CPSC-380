@@ -8,6 +8,7 @@
 
 using namespace std;
 
+//Global Variables
 sem_t mutex;
 
 int timer = 0;
@@ -44,6 +45,7 @@ void Simulation::runSimulation()
 void heightValidator()
 {
 	cout << "Fred Height: " << FH << "; Wilma Height: " << WH << "; Time: " << timer << endl;
+	
 	if(FH == 1)
 	{
 		fredUp = true;

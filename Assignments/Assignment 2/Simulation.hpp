@@ -14,19 +14,18 @@ using namespace std;
 #ifndef Simulation_HPP
 #define Simulation_HPP
 
-
-void* fredSee(void* params);
-void* wilmaSaw(void* params);
-void heightValidator();
+void* fredSee(void* params); //Fred Behavior
+void* wilmaSaw(void* params); //Wilma Behavior
+void heightValidator(); //Main Height Incrementor/Decrementor
 
 class Simulation
 {
 	public:
-		Simulation();
-		~Simulation();
+		Simulation(); //Initialize Binary Semaphore
+		~Simulation(); //Destory Binary Semaphore
 	
 	private:
-		void runSimulation();
+		void runSimulation();  //Initialize And Run Threads
 	
 	
 };
