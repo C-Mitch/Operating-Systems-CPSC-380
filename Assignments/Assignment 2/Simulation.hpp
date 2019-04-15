@@ -7,7 +7,6 @@
 #include <pthread.h>
 #include <iostream>
 #include <semaphore.h> 
-#include <stdio.h>
 #include <unistd.h> 
 
 using namespace std;
@@ -15,15 +14,10 @@ using namespace std;
 #ifndef Simulation_HPP
 #define Simulation_HPP
 
-typedef struct
-{
-    int height;
-    int force;
-    
-}parameters;
 
-void* fredSee(void* arg);
-void* wilmaSaw(void* arg);
+void* fredSee(void* params);
+void* wilmaSaw(void* params);
+void heightValidator();
 
 class Simulation
 {
@@ -33,10 +27,6 @@ class Simulation
 	
 	private:
 		void runSimulation();
-		void printHeight();
-		
-		int time;
-		int loopControl;
 	
 	
 };
